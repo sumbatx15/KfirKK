@@ -1,0 +1,121 @@
+﻿<Window x:Class="KFIRKK.winMonth"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:KFIRKK"
+        mc:Ignorable="d"
+ Title="דוח חודשי" Height="755" Width="1350" Loaded="Window_Loaded" Language="he"  FlowDirection="RightToLeft" AllowsTransparency="True" WindowStyle="None" Foreground="White" BorderBrush="#FF20232A" BorderThickness="5" Background="#FF131519" WindowStartupLocation="CenterScreen"  Icon="kfirIcon.png" PreviewKeyDown="Grid_PreviewKeyDown" MouseLeftButtonDown="Window_MouseLeftButtonDown">
+    <Window.Resources>
+        <Style TargetType="DataGridColumnHeader">
+            <Setter Property="Background" Value="#FF20232A"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="9.9"/>
+            <Setter Property="FontWeight" Value="ExtraLight"/>
+            <Setter Property="Height" Value="28"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+
+        <Style TargetType="DataGrid">
+            <Setter Property="Background" Value="#FF131519"/>
+            <Setter Property="BorderBrush" Value="#FF20232A"/>
+            <Setter Property="HorizontalGridLinesBrush" Value="#FF1C2027"/>
+            <Setter Property="VerticalGridLinesBrush" Value="#FF1C2027"/>
+            <Setter Property="HeadersVisibility" Value="Column"/>
+            <Setter Property="HorizontalScrollBarVisibility" Value="Disabled"/>
+            <Setter Property="VerticalScrollBarVisibility" Value="Disabled"/>
+        </Style>
+
+
+
+
+        <Style TargetType="DataGridCell">
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type DataGridCell}">
+                        <Grid Background="{TemplateBinding Background}">
+                            <ContentPresenter VerticalAlignment="Center" />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Background" Value="#FF131519"/>
+            <Setter Property="Foreground" Value="#FFA5B6C3"/>
+            <Setter Property="Height" Value="20"/>
+            <Setter Property="FontSize" Value="9.9"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
+            <Setter Property="VerticalAlignment" Value="Stretch"></Setter>
+            <Setter Property="VerticalContentAlignment" Value="Stretch"></Setter>
+            <Setter Property="TextBlock.TextAlignment" Value="Center"></Setter>
+            <Setter Property="TextBlock.VerticalAlignment" Value="Center"></Setter>
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="#FF171A1F"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <local:CashCreditConvertor x:Key="cashconv"/>
+        <local:Database1DataSet x:Key="database1DataSet"/>
+        <CollectionViewSource x:Name="sumbatClientSoruce" x:Key="clientViewSource" Source="{Binding Client, Source={StaticResource database1DataSet}}"/>
+        <CollectionViewSource x:Name="sumbatWorkSource" x:Key="clientWorkViewSource" Source="{Binding FK_Work_ToTable, Source={StaticResource clientViewSource}}"/>
+        <CollectionViewSource x:Key="workViewSource" Source="{Binding Work, Source={StaticResource database1DataSet}}"/>
+    </Window.Resources>
+    <Grid DataContext="{StaticResource workViewSource}">
+        <Rectangle Fill="#FF252932" HorizontalAlignment="Left" Height="100" Margin="330,26,0,0" VerticalAlignment="Top" Width="3"/>
+        <Label x:Name="lblmonth" Content="מרץ, 2017" HorizontalAlignment="Left" Margin="333,55,0,0" VerticalAlignment="Top" Foreground="White" FontSize="36" Width="314" HorizontalContentAlignment="Center"/>
+        <DataGrid x:Name="workDataGrid" AutoGenerateColumns="False" EnableRowVirtualization="True" ItemsSource="{Binding}" Margin="10,159,10,10" RowDetailsVisibilityMode="VisibleWhenSelected" IsReadOnly="True">
+            <!--<DataGrid.Columns>
+                <DataGridTextColumn x:Name="idColumn" Binding="{Binding Id}" Header="Id" IsReadOnly="True" Width="SizeToHeader"/>
+                <DataGridTextColumn x:Name="uIdColumn" Binding="{Binding uId}" Header="u Id" Width="SizeToHeader"/>
+                <DataGridTextColumn x:Name="dateColumn" Binding="{Binding Date}" Header="Date" Width="SizeToHeader"/>
+                <DataGridTextColumn x:Name="nameColumn" Binding="{Binding Name}" Header="Name" Width="SizeToHeader"/>
+                <DataGridTextColumn x:Name="tattooCountColumn" Binding="{Binding TattooCount}" Header="Tattoo Count" Width="SizeToHeader"/>
+                <DataGridTextColumn x:Name="tattooPriceColumn" Binding="{Binding TattooPrice}" Header="Tattoo Price" Width="SizeToHeader"/>
+                <DataGridTextColumn x:Name="tattooPricePointsColumn" Binding="{Binding TattooPricePoints}" Header="Tattoo Price Points" Width="SizeToHeader"/>
+                <DataGridTextColumn x:Name="tattooPriceTypeColumn" Binding="{Binding TattooPriceType}" Header="Tattoo Price Type" Width="SizeToHeader"/>
+                <DataGridTextColumn x:Name="piercingCountColumn" Binding="{Binding PiercingCount}" Header="Piercing Count" Width="SizeToHeader"/>
+                <DataGridTextColumn x:Name="piercingPriceColumn" Binding="{Binding PiercingPrice}" Header="Piercing Price" Width="SizeToHeader"/>
+                <DataGridTextColumn x:Name="piercingPricePointsColumn" Binding="{Binding PiercingPricePoints}" Header="Piercing Price Points" Width="SizeToHeader"/>
+                <DataGridTextColumn x:Name="piercingPriceTypeColumn" Binding="{Binding PiercingPriceType}" Header="Piercing Price Type" Width="SizeToHeader"/>
+                <DataGridTextColumn x:Name="mishaCountColumn" Binding="{Binding MishaCount}" Header="Misha Count" Width="SizeToHeader"/>
+                <DataGridTextColumn x:Name="mishaPriceColumn" Binding="{Binding MishaPrice}" Header="Misha Price" Width="SizeToHeader"/>
+                <DataGridTextColumn x:Name="mishaPricePointsColumn" Binding="{Binding MishaPricePoints}" Header="Misha Price Points" Width="SizeToHeader"/>
+                <DataGridTextColumn x:Name="mishaPriceTypeColumn" Binding="{Binding MishaPriceType}" Header="Misha Price Type" Width="SizeToHeader"/>
+                <DataGridTextColumn x:Name="neckleCountColumn" Binding="{Binding NeckleCount}" Header="Neckle Count" Width="SizeToHeader"/>
+                <DataGridTextColumn x:Name="necklePriceColumn" Binding="{Binding NecklePrice}" Header="Neckle Price" Width="SizeToHeader"/>
+                <DataGridTextColumn x:Name="necklePricePointsColumn" Binding="{Binding NecklePricePoints}" Header="Neckle Price Points" Width="SizeToHeader"/>
+                <DataGridTextColumn x:Name="necklePriceTypeColumn" Binding="{Binding NecklePriceType}" Header="Neckle Price Type" Width="SizeToHeader"/>
+                <DataGridTextColumn x:Name="descriptionColumn" Binding="{Binding Description}" Header="Description" Width="SizeToHeader"/>
+                <DataGridTextColumn x:Name="creditColumn" Binding="{Binding Credit}" Header="Credit" Width="SizeToHeader"/>
+                <DataGridTextColumn x:Name="cashColumn" Binding="{Binding Cash}" Header="Cash" Width="SizeToHeader"/>
+                <DataGridTextColumn x:Name="sumColumn" Binding="{Binding Sum}" Header="Sum" Width="SizeToHeader"/>
+                <DataGridTextColumn x:Name="pointsSumColumn" Binding="{Binding PointsSum}" Header="Points Sum" Width="SizeToHeader"/>
+            </DataGrid.Columns>-->
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Date, StringFormat='d לMMMM, dddd'}" Header="תאריך" Width="100"/>
+                <DataGridTextColumn x:Name="nameColumn" Binding="{Binding Name}" Header="לקוח" Width="100"/>
+                <DataGridTextColumn Binding="{Binding TattooCount, StringFormat=#}" Header="קעקועים" Width="100"/>
+                <DataGridTextColumn Binding="{Binding TattooPrice, StringFormat=#\,#.00;;#}" Header="₪" Width="100"/>
+                <DataGridTextColumn Binding="{Binding PiercingCount, StringFormat=#}"  Header="פירסינג" Width="100"/>
+                <DataGridTextColumn Binding="{Binding PiercingPrice, StringFormat=#\,#.00;;#}"  Header="₪" Width="100"/>
+                <DataGridTextColumn Binding="{Binding MishaCount, StringFormat=#}" Header="משחה" Width="100"/>
+                <DataGridTextColumn Binding="{Binding MishaPrice, StringFormat=#\,#.00;;#}"  Header="₪" Width="100"/>
+                <DataGridTextColumn Binding="{Binding NeckleCount, StringFormat=#}"  Header="תכשיט" Width="100"/>
+                <DataGridTextColumn Binding="{Binding NecklePrice, StringFormat=#\,#.00;;#}" Header="₪" Width="100"/>
+                <DataGridTextColumn Binding="{Binding Credit, StringFormat=#\,#.00;;#}"  Header="סה&quot;כ אשראי" Width="*"/>
+                <DataGridTextColumn Binding="{Binding Cash, StringFormat=#\,#.00;;#}" Header="סה&quot;כ מזומן" Width="*"/>
+                <DataGridTextColumn Binding="{Binding Sum, StringFormat=#\,#.00;;#}" Header="סה&quot;כ" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Label x:Name="label_Copy" Content="x" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,13,13,0" Foreground="#FFF5F5F7" MouseDown="label_MouseDown" Cursor="Hand"/>
+        <Image x:Name="KFIRTATTODATABASE_png" Margin="42,26,0,0" Source="KFIRTATTODATABASE.png" HorizontalAlignment="Left" Width="240" Height="99" VerticalAlignment="Top" />
+        <Rectangle Fill="#FF252932" HorizontalAlignment="Left" Height="100" Margin="330,26,0,0" VerticalAlignment="Top" Width="3"/>
+        <Label x:Name="lblmonth_Copy" Content="דוח חודשי" HorizontalAlignment="Left" Margin="449,33,0,0" VerticalAlignment="Top" Foreground="#FF465A81" Background="{x:Null}" FontFamily="Arial" FontSize="18"/>
+        <Label x:Name="lblSum" Content="סה&quot;כ:" HorizontalAlignment="Left" Margin="675,22,0,0" VerticalAlignment="Top" Foreground="#FFA5B6C3" Background="{x:Null}" FontFamily="Arial"/>
+        <Rectangle Fill="#FF252932" HorizontalAlignment="Left" Height="100" Margin="647,26,0,0" VerticalAlignment="Top" Width="3"/>
+
+    </Grid>
+</Window>

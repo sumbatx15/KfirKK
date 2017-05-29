@@ -1,0 +1,24 @@
+﻿<Window x:Class="KFIRKK.winSettings"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:KFIRKK"
+        mc:Ignorable="d"
+        Title="winSettings" Height="400" Width="400" AllowsTransparency="True" WindowStyle="None" FlowDirection="RightToLeft" Loaded="Window_Loaded" BorderThickness="5" BorderBrush="#FF282C36" Icon="kfirIcon.png" MouseLeftButtonDown="Window_MouseLeftButtonDown">
+    <Grid Background="WhiteSmoke">
+        <Grid Height="45" VerticalAlignment="Top" Background="#FF282C36">
+            <Label x:Name="label_Copy1" Content="x" HorizontalAlignment="Right" VerticalAlignment="Top" Foreground="#FFF5F5F7" MouseDown="label_MouseDown" Cursor="Hand" Margin="0,10,10,0"/>
+        </Grid>
+        <Label x:Name="label" Content="הגדרות" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Foreground="White"/>
+        <GroupBox x:Name="groupBox" Header="אחוזי נקודות" HorizontalAlignment="Left" Margin="10,50,0,0" VerticalAlignment="Top" Height="111" Width="193" Foreground="#FF2E2E2E" BorderBrush="#FFB4B4B4">
+            <Grid Margin="0,0,-2,-1">
+                <Button x:Name="button" Content="הגדר" VerticalAlignment="Top" Click="button_Click" Height="27" Margin="103,48,0,0" HorizontalAlignment="Left" Width="70"/>
+                <Label x:Name="label_Copy" Content="אחוזים לנקודות:" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="Black" Margin="3,10,0,0"/>
+                <TextBox x:Name="tbxPrecent" HorizontalAlignment="Left" Height="24" TextWrapping="Wrap" VerticalAlignment="Top" Width="70" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" PreviewKeyDown="OnPreviewKeyDown" Margin="103,10,0,0"/>
+            </Grid>
+        </GroupBox>
+        <CheckBox x:Name="ckDohShnatiOpenClose" Content="שמור את דוח השנתי פתוח תמיד" HorizontalAlignment="Left" Margin="10,181,0,0" VerticalAlignment="Top" Click="checkBox_Click"/>
+
+    </Grid>
+</Window>

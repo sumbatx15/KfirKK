@@ -1,0 +1,341 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Client">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="50" />
+          <Property Name="InActive" Type="bit" />
+          <Property Name="Units" Type="float" />
+        </EntityType>
+        <EntityType Name="Log">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="uId" Type="int" Nullable="false" />
+          <Property Name="Date" Type="datetime" />
+          <Property Name="LogText" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="TransferLog">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ClientId" Type="int" Nullable="false" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="TransferAmount" Type="float" Nullable="false" />
+          <Property Name="TransferLogText" Type="nvarchar(max)" />
+          <Property Name="OtherClientName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="PointsAfterTransfer" Type="float" />
+        </EntityType>
+        <EntityType Name="Work">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="uId" Type="int" Nullable="false" />
+          <Property Name="Date" Type="date" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="TattooCount" Type="int" />
+          <Property Name="TattooPrice" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="TattooPricePoints" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="TattooPriceType" Type="bit" />
+          <Property Name="PiercingCount" Type="int" />
+          <Property Name="PiercingPrice" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="PiercingPricePoints" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="PiercingPriceType" Type="bit" />
+          <Property Name="MishaCount" Type="int" />
+          <Property Name="MishaPrice" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="MishaPricePoints" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="MishaPriceType" Type="bit" />
+          <Property Name="NeckleCount" Type="int" />
+          <Property Name="NecklePrice" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="NecklePricePoints" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="NecklePriceType" Type="bit" />
+          <Property Name="Description" Type="nvarchar" MaxLength="100" />
+          <Property Name="Credit" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="Cash" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="Sum" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="PointsSum" Type="float" />
+        </EntityType>
+        <Association Name="FK_Log_ToTable">
+          <End Role="Client" Type="Self.Client" Multiplicity="1" />
+          <End Role="Log" Type="Self.Log" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Log">
+              <PropertyRef Name="uId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TransferLog_ToTable">
+          <End Role="Client" Type="Self.Client" Multiplicity="1" />
+          <End Role="TransferLog" Type="Self.TransferLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TransferLog">
+              <PropertyRef Name="ClientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Work_ToTable">
+          <End Role="Client" Type="Self.Client" Multiplicity="1" />
+          <End Role="Work" Type="Self.Work" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Work">
+              <PropertyRef Name="uId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="StoreContainer">
+          <EntitySet Name="Client" EntityType="Self.Client" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Log" EntityType="Self.Log" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TransferLog" EntityType="Self.TransferLog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Work" EntityType="Self.Work" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Log_ToTable" Association="Self.FK_Log_ToTable">
+            <End Role="Client" EntitySet="Client" />
+            <End Role="Log" EntitySet="Log" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TransferLog_ToTable" Association="Self.FK_TransferLog_ToTable">
+            <End Role="Client" EntitySet="Client" />
+            <End Role="TransferLog" EntitySet="TransferLog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Work_ToTable" Association="Self.FK_Work_ToTable">
+            <End Role="Client" EntitySet="Client" />
+            <End Role="Work" EntitySet="Work" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Database1Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="Database1Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Clients" EntityType="Database1Model.Client" />
+          <EntitySet Name="Logs" EntityType="Database1Model.Log" />
+          <EntitySet Name="Works" EntityType="Database1Model.Work" />
+          <AssociationSet Name="FK_Log_ToTable" Association="Database1Model.FK_Log_ToTable">
+            <End Role="Client" EntitySet="Clients" />
+            <End Role="Log" EntitySet="Logs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Work_ToTable" Association="Database1Model.FK_Work_ToTable">
+            <End Role="Client" EntitySet="Clients" />
+            <End Role="Work" EntitySet="Works" />
+          </AssociationSet>
+          <EntitySet Name="TransferLogs" EntityType="Database1Model.TransferLog" />
+          <AssociationSet Name="FK_TransferLog_ToTable" Association="Database1Model.FK_TransferLog_ToTable">
+            <End Role="Client" EntitySet="Clients" />
+            <End Role="TransferLog" EntitySet="TransferLogs" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Client">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="InActive" Type="Boolean" />
+          <Property Name="Units" Type="Double" />
+          <NavigationProperty Name="Logs" Relationship="Database1Model.FK_Log_ToTable" FromRole="Client" ToRole="Log" />
+          <NavigationProperty Name="Works" Relationship="Database1Model.FK_Work_ToTable" FromRole="Client" ToRole="Work" />
+          <NavigationProperty Name="TransferLogs" Relationship="Database1Model.FK_TransferLog_ToTable" FromRole="Client" ToRole="TransferLog" />
+        </EntityType>
+        <EntityType Name="Log">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="uId" Type="Int32" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Precision="3" />
+          <Property Name="LogText" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Client" Relationship="Database1Model.FK_Log_ToTable" FromRole="Log" ToRole="Client" />
+        </EntityType>
+        <EntityType Name="Work">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="uId" Type="Int32" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Precision="0" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TattooCount" Type="Int32" />
+          <Property Name="TattooPrice" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="TattooPricePoints" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="TattooPriceType" Type="Boolean" />
+          <Property Name="PiercingCount" Type="Int32" />
+          <Property Name="PiercingPrice" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="PiercingPricePoints" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="PiercingPriceType" Type="Boolean" />
+          <Property Name="MishaCount" Type="Int32" />
+          <Property Name="MishaPrice" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="MishaPricePoints" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="MishaPriceType" Type="Boolean" />
+          <Property Name="NeckleCount" Type="Int32" />
+          <Property Name="NecklePrice" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="NecklePricePoints" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="NecklePriceType" Type="Boolean" />
+          <Property Name="Description" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Credit" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="Cash" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="Sum" Type="Decimal" Precision="18" Scale="0" />
+          <NavigationProperty Name="Client" Relationship="Database1Model.FK_Work_ToTable" FromRole="Work" ToRole="Client" />
+          <Property Name="PointsSum" Type="Double" />
+        </EntityType>
+        <Association Name="FK_Log_ToTable">
+          <End Type="Database1Model.Client" Role="Client" Multiplicity="1" />
+          <End Type="Database1Model.Log" Role="Log" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Log">
+              <PropertyRef Name="uId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Work_ToTable">
+          <End Type="Database1Model.Client" Role="Client" Multiplicity="1" />
+          <End Type="Database1Model.Work" Role="Work" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Work">
+              <PropertyRef Name="uId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="TransferLog">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ClientId" Type="Int32" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="TransferAmount" Type="Double" Nullable="false" />
+          <Property Name="TransferLogText" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OtherClientName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PointsAfterTransfer" Type="Double" />
+          <NavigationProperty Name="Client" Relationship="Database1Model.FK_TransferLog_ToTable" FromRole="TransferLog" ToRole="Client" />
+        </EntityType>
+        <Association Name="FK_TransferLog_ToTable">
+          <End Type="Database1Model.Client" Role="Client" Multiplicity="1" />
+          <End Type="Database1Model.TransferLog" Role="TransferLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TransferLog">
+              <PropertyRef Name="ClientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="StoreContainer" CdmEntityContainer="Database1Entities" >
+          <EntitySetMapping Name="Clients">
+            <EntityTypeMapping TypeName="Database1Model.Client">
+              <MappingFragment StoreEntitySet="Client">
+                <ScalarProperty Name="Units" ColumnName="Units" />
+                <ScalarProperty Name="InActive" ColumnName="InActive" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Logs">
+            <EntityTypeMapping TypeName="Database1Model.Log">
+              <MappingFragment StoreEntitySet="Log">
+                <ScalarProperty Name="LogText" ColumnName="LogText" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="uId" ColumnName="uId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Works">
+            <EntityTypeMapping TypeName="Database1Model.Work">
+              <MappingFragment StoreEntitySet="Work">
+                <ScalarProperty Name="PointsSum" ColumnName="PointsSum" />
+                <ScalarProperty Name="Sum" ColumnName="Sum" />
+                <ScalarProperty Name="Cash" ColumnName="Cash" />
+                <ScalarProperty Name="Credit" ColumnName="Credit" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="NecklePriceType" ColumnName="NecklePriceType" />
+                <ScalarProperty Name="NecklePricePoints" ColumnName="NecklePricePoints" />
+                <ScalarProperty Name="NecklePrice" ColumnName="NecklePrice" />
+                <ScalarProperty Name="NeckleCount" ColumnName="NeckleCount" />
+                <ScalarProperty Name="MishaPriceType" ColumnName="MishaPriceType" />
+                <ScalarProperty Name="MishaPricePoints" ColumnName="MishaPricePoints" />
+                <ScalarProperty Name="MishaPrice" ColumnName="MishaPrice" />
+                <ScalarProperty Name="MishaCount" ColumnName="MishaCount" />
+                <ScalarProperty Name="PiercingPriceType" ColumnName="PiercingPriceType" />
+                <ScalarProperty Name="PiercingPricePoints" ColumnName="PiercingPricePoints" />
+                <ScalarProperty Name="PiercingPrice" ColumnName="PiercingPrice" />
+                <ScalarProperty Name="PiercingCount" ColumnName="PiercingCount" />
+                <ScalarProperty Name="TattooPriceType" ColumnName="TattooPriceType" />
+                <ScalarProperty Name="TattooPricePoints" ColumnName="TattooPricePoints" />
+                <ScalarProperty Name="TattooPrice" ColumnName="TattooPrice" />
+                <ScalarProperty Name="TattooCount" ColumnName="TattooCount" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="uId" ColumnName="uId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TransferLogs">
+            <EntityTypeMapping TypeName="Database1Model.TransferLog">
+              <MappingFragment StoreEntitySet="TransferLog">
+                <ScalarProperty Name="PointsAfterTransfer" ColumnName="PointsAfterTransfer" />
+                <ScalarProperty Name="OtherClientName" ColumnName="OtherClientName" />
+                <ScalarProperty Name="TransferLogText" ColumnName="TransferLogText" />
+                <ScalarProperty Name="TransferAmount" ColumnName="TransferAmount" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="ClientId" ColumnName="ClientId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
